@@ -1,0 +1,86 @@
+.galleries {
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 2rem;
+  }
+  .gallery {
+      display: grid;
+      width: 100%;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      grid-gap: 20px;
+      align-items: stretch;
+      background: white;
+      padding: 2rem;
+      }
+  
+      .gallery img {
+        width: 100%;
+        object-fit: cover;
+        border:1px solid black;
+      }
+  
+      .modal {
+        position: fixed;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 2;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        display: grid;
+        align-items: center;
+        justify-items: center;
+        /* "pointer-event: none" will ignore all the clicks on the element */
+        pointer-events: none;
+        /* because of "opacity:0" the modal is hidden */
+        opacity: 0; 
+        transition: opacity 0.5s;
+      }
+  
+      .modalInner {
+        border-radius: 4px;
+        background: white;
+        box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.05);
+        /* because of "transform: translateY(-100vh)" modal is displayed off the screen when "opacity:1" of .modal */
+        transform: translateY(-100vh);
+        transition: all 0.5s;
+        max-width: 1000px;
+        height: calc(100vh - 100px);
+        display: grid;
+        grid-template-columns: 50px 1fr 50px;
+        color: black;
+        margin: 3rem;
+      }
+  
+      .modal figure {
+        height: 100%;
+        display: grid;
+        margin: 0;
+        grid-template-rows: 1fr auto;
+      }
+  
+      .modal img {
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+      }
+  
+      .modal.open {
+        /* because of "opacity:1" the modal is visible */
+        opacity: 1;
+        pointer-events: all;
+      }
+  
+      .modal figcaption {
+        padding: 10px;
+      }
+  
+      .modal h2 {
+        color: black;
+      }
+  
+      .modal.open .modalInner {
+        /* because of  "transform: translateY(0);" the modal is displayed on the screen when "opacity:1" of .model.open "*/
+        transform: translateY(0);
+      }
