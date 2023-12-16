@@ -12,16 +12,19 @@ function Gallery(gallery){
     const previewBtn=modal.querySelector(".prev");
     const nextBtn=modal.querySelector(".next");
     let currentImage;
-    // console.log({modal,previewBtn,nextBtn})
 
-    // adding event listener to each imag by looping
+    // adding event listener to each imag by looping to listen click event on the image
     images.forEach((image) =>
          image.addEventListener("click",(e)=>{
-            // console.log(e);
             showImage(e.currentTarget);
          }));
     
-
+    // adding event listener to each of image to listen keyup or keydown when user hit enter to focus.
+    images.forEach((image)=>
+        image.addEventListener("keydown",(e)=>{
+            if(e.key === "Enter") showImage(e.currentTarget);
+        }));
+    
     // showing of image
     function showImage(el){
         if(!el){
@@ -43,28 +46,46 @@ function Gallery(gallery){
             return;
         }
         modal.classList.add("open");
-        // closeModal()
+        // event listeners are bound when the modal is open only other wise it shows error when we console.log()
+        window.addEventListener("keyup",handleKeyUp);
+        nextBtn.addEventListener("click",showNextImage);
+        previewBtn.addEventListener("click",showPreviousImage);
+    }
+
+    // show next image
+    function showNextImage(){
+        showImage(currentImage.nextElementSibling || gallery.firstElementChild);
+    }
+
+    // show previous image
+    function showPreviousImage(){
+        showImage(currentImage.previousElementSibling || gallery.lastElementChild);
     }
 
     function handleClickOutside(e){
-        console.log({"e.target":e.target,"e.currentTarget":e.currentTarget})
         if(e.target===e.currentTarget){
             closeModal();
         }
     }
 
+    function handleKeyUp(event){
+        if(event.key==="Escape") return closeModal();
+        if(event.key==="ArrowRight") return showNextImage();
+        if(event.key==="ArrowLeft") return showPreviousImage();       
+    }
+
     // closing the modal
     function closeModal(){
-        modal.classList.remove("open")
+        modal.classList.remove("open");
+        window.removeEventListener("keyup",handleKeyUp);
+        nextBtn.removeEventListener("click",showNextImage);
     }
-    
     
     // These are our Event Listeners 
     modal.addEventListener("click",handleClickOutside)
+    
 }
 const gallery1 = Gallery(document.querySelector('.gallery1'));
 const gallery2 = Gallery(document.querySelector('.gallery2'));
-// gallery1();
-// gallery2();
 
 
